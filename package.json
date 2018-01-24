@@ -1,0 +1,34 @@
+{
+  "name": "rxjs-clock",
+  "version": "0.0.1",
+  "description": "Clock animation with using RxJS and HTML5 Canvas.",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "./node_modules/.bin/webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgluhov/RxJS-Clock.git"
+  },
+  "keywords": [
+    "RxJS",
+    "Canvas",
+    "Animations",
+    "Clock"
+  ],
+  "author": "Evgeny Glukhov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jgluhov/RxJS-Clock/issues"
+  },
+  "homepage": "https://github.com/jgluhov/RxJS-Clock#readme",
+  "dependencies": {
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^2.30.1",
+    "ts-loader": "^3.3.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
