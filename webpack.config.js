@@ -1,5 +1,6 @@
 const path = require('path'),
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: "./src",
@@ -33,7 +34,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/index.html'
-        })
+        }),
+        new UglifyJsPlugin()
     ],
 
     devServer: {
