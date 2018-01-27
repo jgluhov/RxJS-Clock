@@ -2,6 +2,7 @@
  * Implementation of Clock by using RxJS and HTML5 Canvas
  */
 import { duration } from './animation';
+import { Hand } from './Hand';
 
 const canvas: HTMLCanvasElement = document.querySelector('#screen');
 const context: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -27,24 +28,6 @@ const timeData: ITimeData = {
     minutes: 0,
     seconds: 0
 };
-
-class Hand {
-    public name: string;
-    public angle: number;
-    public time: number = 0;
-    public length: number;
-
-    constructor(name: string, angle: number, length: number) {
-        this.angle = angle;
-        this.length = length;
-    }
-}
-
-const hands: Hand[] = [
-    new Hand('hour', Math.PI * 2 / 12, RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION),
-    new Hand('minutes', Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION),
-    new Hand('seconds', Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION)
-];
 
 function clear(): void {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -88,17 +71,29 @@ function drawHand(time: number, stepAngle: number, radius: number): void {
     context.stroke();
 }
 
+type ClockHands = {
+    hour: Hand;
+    minutes: Hand;
+    seconds: Hand;
+};
+
+const hands: ClockHands = {
+    hour: new Hand(Math.PI * 2 / 12, RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION),
+    minutes: new Hand(Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION),
+    seconds: new Hand(Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION)
+};
+
 function drawHands(): void {
-    hands.forEach((hand: Hand) => {
-        drawHand(hand.time, hand.angle, hand.length);
-    });
+    drawHand(hands.hour.time, hands.hour.angle, hands.hour.length);
+    drawHand(hands.minutes.time, hands.minutes.angle, hands.minutes.length);
+    drawHand(hands.seconds.time, hands.seconds.angle, hands.seconds.length);
 }
 
 function updateTime(): void {
     const date: Date = new Date();
-    hands[0].time = date.getHours() % 12;
-    hands[1].time = date.getMinutes();
-    hands[2].time = date.getSeconds();
+    hands.hour.time = date.getHours() % 12;
+    hands.minutes.time = date.getMinutes();
+    hands.seconds.time = date.getSeconds();
 }
 
 function init(): void {
