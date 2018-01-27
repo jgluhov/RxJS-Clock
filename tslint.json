@@ -4,6 +4,10 @@
         "tslint-microsoft-contrib"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "no-submodule-imports": [true, "rxjs"],
+        "export-name": [false],
+        "no-relative-imports": [false]
+    },
     "rulesDirectory": []
 }
