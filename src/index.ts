@@ -88,13 +88,16 @@ function init(): void {
 }
 
 function drawClock(): void {
+    clear();
+
     drawCircle();
     drawCenter();
     drawNumerals();
 
     updateTime();
-    clear();
+
     drawHands(timeData);
+
     requestAnimationFrame(drawClock);
 }
 
