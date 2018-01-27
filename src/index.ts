@@ -28,6 +28,24 @@ const timeData: ITimeData = {
     seconds: 0
 };
 
+class Hand {
+    public name: string;
+    public angle: number;
+    public time: number = 0;
+    public length: number;
+
+    constructor(name: string, angle: number, length: number) {
+        this.angle = angle;
+        this.length = length;
+    }
+}
+
+const hands: Hand[] = [
+    new Hand('hour', Math.PI * 2 / 12, RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION),
+    new Hand('minutes', Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION),
+    new Hand('seconds', Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION)
+];
+
 function clear(): void {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -70,17 +88,17 @@ function drawHand(time: number, stepAngle: number, radius: number): void {
     context.stroke();
 }
 
-function drawHands(time: ITimeData): void {
-    drawHand(time.hour, Math.PI * 2 / 12, RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION);
-    drawHand(time.minutes, Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION);
-    drawHand(time.seconds, Math.PI * 2 / 60, RADIUS - HAND_TRUNCATION);
+function drawHands(): void {
+    hands.forEach((hand: Hand) => {
+        drawHand(hand.time, hand.angle, hand.length);
+    });
 }
 
 function updateTime(): void {
     const date: Date = new Date();
-    timeData.hour = date.getHours() % 12;
-    timeData.minutes = date.getMinutes();
-    timeData.seconds = date.getSeconds();
+    hands[0].time = date.getHours() % 12;
+    hands[1].time = date.getMinutes();
+    hands[2].time = date.getSeconds();
 }
 
 function init(): void {
@@ -96,7 +114,7 @@ function drawClock(): void {
 
     updateTime();
 
-    drawHands(timeData);
+    drawHands();
 
     requestAnimationFrame(drawClock);
 }
