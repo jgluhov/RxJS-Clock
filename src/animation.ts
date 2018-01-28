@@ -40,7 +40,9 @@ export function duration(ms: number): Observable<number> {
         );
 }
 
-export function animate([previous, next]: [number, number]): Observable<number> {
+export function animate(
+    [previous, next]: [number, number]
+): Observable<number> {
     return duration(900)
         .pipe(
             map(elasticOut),
@@ -50,23 +52,13 @@ export function animate([previous, next]: [number, number]): Observable<number> 
             })
         );
 }
+
 export function tween(ms: number, easing: EasingFn): Function {
     return (source$: Observable<number>): Observable<number> => {
         return source$
             .pipe(
                 pairwise(),
-                switchMap(([previous, n]: [number, number]) => {
-                    const next: number = n === 0 ? 60 : n;
-
-                    return duration(ms)
-                        .pipe(
-                            map(elasticOut),
-                            map(distance(next - previous)),
-                            map((v: number) => {
-                                return (previous + v) % 60;
-                            })
-                        );
-                })
+                switchMap(animate)
             );
     };
 }
